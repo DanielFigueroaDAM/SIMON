@@ -27,16 +27,18 @@ import androidx.compose.ui.unit.sp
 @Preview(showBackground = true)
     @Composable
     fun ViewAll() {
+        val myViewModel = MyViewModel()
 
         Scaffold(modifier = Modifier,containerColor = Color.Black) { innerPadding ->
             Greeting(
+                myViewModel,
                 modifier = Modifier.padding(innerPadding)
             )
         }
     }
 
     @Composable
-    fun Greeting(modifier: Modifier = Modifier) {
+    fun Greeting(myViewModel: MyViewModel, modifier: Modifier = Modifier) {
         Text(text = "Contador = ",
             fontSize = 20.sp,
             modifier = Modifier
@@ -50,21 +52,19 @@ import androidx.compose.ui.unit.sp
 
             Row {
                 Column {
-                    Boton(Colores.CLASE_ROJO.color, Colores.CLASE_ROJO.txt)
-                    Boton(Colores.CLASE_VERDE.color, Colores.CLASE_VERDE.txt)
+                    Boton(myViewModel, Colores.CLASE_ROJO)
+                    Boton(myViewModel,Colores.CLASE_VERDE)
                 }
-
-
                 Column {
-                    Boton(Colores.CLASE_AZUL.color, Colores.CLASE_AZUL.txt)
-                    Boton(Colores.CLASE_AMARILLO.color, Colores.CLASE_AMARILLO.txt)
+                    Boton(myViewModel,Colores.CLASE_AZUL)
+                    Boton(myViewModel,Colores.CLASE_AMARILLO)
 
                 }
 
             }
             Button(
                 colors = ButtonDefaults.buttonColors(Color.Blue),
-                onClick = { Log.d("Juego","Click!")},
+                onClick = { myViewModel.crearRandom() }
                 ) {
                 Text(text = "juego", fontSize = 20.sp)
             }
@@ -75,15 +75,16 @@ import androidx.compose.ui.unit.sp
     }
 
 @Composable
-fun Boton(color: Color, text: String){
+fun Boton(myViewModel: MyViewModel, colores: Colores){
     Button(
-        colors = ButtonDefaults.buttonColors(color),
-        onClick = { Log.d("Juego","Click!")},
+        colors = ButtonDefaults.buttonColors(colores.color),
+        onClick = { myViewModel.comprobarOrdinalColor(colores)},
         modifier = Modifier
             .size(height = 100.dp, width = 160.dp )
             .padding(15.dp)
             ) {
-                Text(text = text, fontSize = 20.sp)
+                Text(text = colores.txt, fontSize = 20.sp, color = Color.Black)
             }
 
 }
+
