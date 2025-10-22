@@ -1,7 +1,10 @@
 package com.dam.simondir
 
+import android.R
+import android.text.style.BackgroundColorSpan
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +27,8 @@ import androidx.compose.ui.unit.sp
 @Preview(showBackground = true)
     @Composable
     fun ViewAll() {
-        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+
+        Scaffold(modifier = Modifier,containerColor = Color.Black) { innerPadding ->
             Greeting(
                 modifier = Modifier.padding(innerPadding)
             )
