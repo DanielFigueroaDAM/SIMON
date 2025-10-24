@@ -40,24 +40,25 @@ class MyViewModel: ViewModel() {
     }
     fun actualizarEstado(estado: Estados) {
         Log.d(TAG_LOG, "actualizamos estado - Estado: ${estadoLiveData.value}")
+
         estadoLiveData.value = estado
     }
     fun comprobarOrdinalColor(colorP: Colores){
         if(comprobarColor(colorP) == Datos.numero){
             Log.d(TAG_LOG, "Muy bien")
-            Datos.contadorAciertos++
+            Datos.contadorAciertos.value = Datos.contadorAciertos.value + 1
             comprobarNumero()
             crearRandom()
         }
         else {
             Log.d(TAG_LOG, "Mal")
-            Datos.contadorAciertos = 0
+            Datos.contadorAciertos.value = 0
             crearRandom()
         }
     }
 
     private fun comprobarNumero() {
-        if(Datos.contadorAciertos == 3){
+        if(Datos.contadorAciertos.value == 3){
             // mostrar un panel de victoria
             actualizarEstado(Estados.INICIO)
         }
@@ -72,5 +73,9 @@ class MyViewModel: ViewModel() {
             Colores.CLASE_AZUL -> 2
             Colores.CLASE_AMARILLO -> 3
         }
+    }
+    fun resetContador(){
+        Datos.contadorAciertos.value = 0
+
     }
 }

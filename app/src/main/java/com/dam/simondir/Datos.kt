@@ -1,9 +1,13 @@
 package com.dam.simondir
 
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.MutableStateFlow
 
 object Datos {
-    var contadorAciertos = 0
+    var contadorAciertos  = MutableStateFlow(0)
+
+
     var numero = 0
 }
 

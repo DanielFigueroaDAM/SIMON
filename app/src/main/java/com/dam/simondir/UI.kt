@@ -16,6 +16,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +42,10 @@ import androidx.compose.ui.unit.sp
 
     @Composable
     fun Greeting(myViewModel: MyViewModel, modifier: Modifier = Modifier) {
-        Text(text = "Contador = ",
+        val newCounter by Datos.contadorAciertos.collectAsState()
+
+
+        Text(text = "Contador = $newCounter",
             fontSize = 20.sp,
             modifier = Modifier
                 .padding(10.dp),
@@ -64,7 +70,10 @@ import androidx.compose.ui.unit.sp
             }
             Button(
                 colors = ButtonDefaults.buttonColors(Color.Blue),
-                onClick = { myViewModel.crearRandom() }
+                onClick = {
+                    myViewModel.crearRandom()
+                    myViewModel.resetContador()
+                }
                 ) {
                 Text(text = "juego", fontSize = 20.sp)
             }
