@@ -45,11 +45,26 @@ class MyViewModel: ViewModel() {
     fun comprobarOrdinalColor(colorP: Colores){
         if(comprobarColor(colorP) == Datos.numero){
             Log.d(TAG_LOG, "Muy bien")
+            Datos.contadorAciertos++
+            comprobarNumero()
+            crearRandom()
         }
         else {
             Log.d(TAG_LOG, "Mal")
+            Datos.contadorAciertos = 0
+            crearRandom()
         }
     }
+
+    private fun comprobarNumero() {
+        if(Datos.contadorAciertos == 3){
+            // mostrar un panel de victoria
+            actualizarEstado(Estados.INICIO)
+        }
+
+
+    }
+
     fun comprobarColor(colorP: Colores):Int{
         return when (colorP) {
             Colores.CLASE_ROJO -> 0

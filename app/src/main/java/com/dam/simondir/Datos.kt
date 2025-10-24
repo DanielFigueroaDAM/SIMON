@@ -3,6 +3,7 @@ package com.dam.simondir
 import androidx.compose.ui.graphics.Color
 
 object Datos {
+    var contadorAciertos = 0
     var numero = 0
 }
 
