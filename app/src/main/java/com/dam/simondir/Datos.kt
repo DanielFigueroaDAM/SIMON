@@ -6,8 +6,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 object Datos {
     var contadorAciertos  = MutableStateFlow(0)
-
-
     var numero = 0
 }
 

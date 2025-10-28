@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 class MyViewModel: ViewModel() {
     private val TAG_LOG = "miDebug"
@@ -11,7 +12,7 @@ class MyViewModel: ViewModel() {
     // estados del juego
     // usamos LiveData para que la IU se actualice
     // patron de diseño observer
-    val estadoLiveData: MutableLiveData<Estados> = MutableLiveData(Estados.INICIO)
+    val estadoLiveData = MutableStateFlow(Estados.INICIO)
 
     // este va a ser nuestra lista para la secuencia random
     // usamos mutable, ya que la queremos modificar
@@ -36,7 +37,7 @@ class MyViewModel: ViewModel() {
         Log.d(TAG_LOG, "actualizamos numero en Datos - Estado: ${estadoLiveData.value}")
         Datos.numero = numero
         // cambiamos estado, por lo tanto la IU se actualiza
-        estadoLiveData.value = Estados.ADIVINANDO
+        actualizarEstado(Estados.ADIVINANDO)
     }
     fun actualizarEstado(estado: Estados) {
         Log.d(TAG_LOG, "actualizamos estado - Estado: ${estadoLiveData.value}")
@@ -48,8 +49,7 @@ class MyViewModel: ViewModel() {
             Log.d(TAG_LOG, "Muy bien")
             Datos.contadorAciertos.value = Datos.contadorAciertos.value + 1
             comprobarNumero()
-            crearRandom()
-            estadoLiveData.value = Estados.ADIVINANDO
+
         }
         else {
             Log.d(TAG_LOG, "Mal")
@@ -64,6 +64,7 @@ class MyViewModel: ViewModel() {
             // mostrar un panel de victoria
             actualizarEstado(Estados.INICIO)
         }
+        crearRandom()
 
 
     }
@@ -78,6 +79,6 @@ class MyViewModel: ViewModel() {
     }
     fun resetContador(){
         Datos.contadorAciertos.value = 0
-
+        actualizarEstado(Estados.INICIO)
     }
 }

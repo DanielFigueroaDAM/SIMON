@@ -25,14 +25,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 @Preview(showBackground = true)
     @Composable
     fun ViewAll() {
-        val myViewModel = MyViewModel()
+        val myViewModel: MyViewModel = viewModel()
 
-        Scaffold(modifier = Modifier,containerColor = Color.Black) { innerPadding ->
+        Scaffold(modifier = Modifier,containerColor = Color.White) { innerPadding ->
             Greeting(
                 myViewModel,
                 modifier = Modifier.padding(innerPadding)
@@ -40,9 +41,12 @@ import androidx.compose.ui.unit.sp
         }
     }
 
+
+
     @Composable
     fun Greeting(myViewModel: MyViewModel, modifier: Modifier = Modifier) {
         val newCounter by Datos.contadorAciertos.collectAsState()
+        val _activo by myViewModel.estadoLiveData.collectAsState()
 
 
         Text(text = "Contador = $newCounter",
@@ -69,10 +73,11 @@ import androidx.compose.ui.unit.sp
 
             }
             Button(
+                enabled = _activo.start_activo,
                 colors = ButtonDefaults.buttonColors(Color.Blue),
                 onClick = {
-                    myViewModel.crearRandom()
                     myViewModel.resetContador()
+                    myViewModel.crearRandom()
                 }
                 ) {
                 Text(text = "juego", fontSize = 20.sp)
@@ -84,16 +89,28 @@ import androidx.compose.ui.unit.sp
     }
 
 @Composable
-fun Boton(myViewModel: MyViewModel, colores: Colores){
-    Button(
-        colors = ButtonDefaults.buttonColors(colores.color),
-        onClick = { myViewModel.comprobarOrdinalColor(colores)},
-        modifier = Modifier
-            .size(height = 100.dp, width = 160.dp )
-            .padding(15.dp)
-            ) {
-                Text(text = colores.txt, fontSize = 20.sp, color = Color.Black)
-            }
+fun Boton(myViewModel: MyViewModel, colores: Colores) {
+    val _activo by myViewModel.estadoLiveData.collectAsState()
 
+    Button(
+        enabled = _activo.boton_activo,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = colores.color,                          // color normal
+            disabledContainerColor = colores.color.copy(alpha = 0.5f), // menos apagado (0.8 en vez de 0.38)
+            contentColor = Color.Black,
+            disabledContentColor = Color.Black.copy(alpha = 0.9f)      // texto casi igual de visible
+        ),
+        onClick = { myViewModel.comprobarOrdinalColor(colores) },
+        modifier = Modifier
+            .size(height = 100.dp, width = 160.dp)
+            .padding(15.dp)
+    ) {
+        Text(
+            text = colores.txt,
+            fontSize = 20.sp,
+            color = Color.Black
+        )
+    }
 }
+
 
