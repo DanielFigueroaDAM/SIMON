@@ -49,11 +49,13 @@ class MyViewModel: ViewModel() {
             Datos.contadorAciertos.value = Datos.contadorAciertos.value + 1
             comprobarNumero()
             crearRandom()
+            estadoLiveData.value = Estados.ADIVINANDO
         }
         else {
             Log.d(TAG_LOG, "Mal")
             Datos.contadorAciertos.value = 0
             crearRandom()
+            estadoLiveData.value = Estados.INICIO
         }
     }
 
