@@ -7,6 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 object Datos {
     var contadorAciertos  = MutableStateFlow(0)
     var numero = 0
+
+    var numeroMax = MutableStateFlow(0)
 }
 
 enum class Colores(val color: Color, val txt: String) {
